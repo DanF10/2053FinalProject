@@ -4,6 +4,8 @@ import TrelloActionButton from './TrelloActionButton';
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import TrelloRemoveButton from "./TrelloRemoveButton";
+import TrelloRemoveListButton from "./TrelloRemoveListButton";
 
 const ListContainer = styled.div `
 background-color: #dfe3e6;
@@ -13,6 +15,7 @@ padding: 8px;
 height: 100%;
 margin-right: 8px;
 `
+
 
 
 const TrelloList = ({title, cards, listID, index}) =>{
@@ -32,6 +35,8 @@ const TrelloList = ({title, cards, listID, index}) =>{
                     id = {card.id}/>))}
                     {provided.placeholder}
                     <TrelloActionButton listID={listID}/>
+                    <TrelloRemoveListButton listRemoveID = {listID}></TrelloRemoveListButton>
+                    
 
                     
                 </div>
@@ -39,6 +44,7 @@ const TrelloList = ({title, cards, listID, index}) =>{
     )}
 
 </Droppable>
+
 </ListContainer>
 
         )}

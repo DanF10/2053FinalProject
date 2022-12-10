@@ -7,96 +7,69 @@ import { connect } from "react-redux";
 import  addList from "../actions/listsActions";
 import addCard from "../actions/cardsActions";
 import removeCard from "../actions/cardRemove";
-import TrelloRemoveButton from "./TrelloRemoveButton";
+import removeList from "../actions/listRemove";
+import { FaTrash } from 'react-icons/fa';
 
-
-class TrelloActionButton extends React.Component {
+class TrelloRemoveListButton extends React.Component {
 
     renderAddButton = () => {
         const { list } = this.props;
 
-        const buttonText = list ? "Add another list" : "Add another card";
-        const buttonTextOpacity = list ? 1: 0.5;
-        const buttonTextColor = list ? "white" : "inherit";
-        const buttonTextBackground = list ? "rgba(0,0,0,.15)" : "inherit";
+        const buttonText = "Remove this list"
+        const buttonTextOpacity =  1;
+        const buttonTextColor =  "white";
+        const buttonTextBackground =  "rgba(0,0,0,.15)";
+
 
         return (
-            <div 
-            onClick = {this.openForm}
-            style = {{...styles.openForButtonGroup,
-             opacity: buttonTextOpacity, 
-             color: buttonTextColor, 
-             backgroundColor: buttonTextBackground}}>
-                <Icon>add</Icon>
-                <p> { buttonText } </p>
+            <div onClick = {this.openForm}
+            style = {{
+                ...styles.openForButtonGroup,
+                opacty: buttonTextOpacity,
+                color: buttonTextColor,
+                backgroundColor: buttonTextBackground
+            }}>
+                <p> <FaTrash></FaTrash></p>
             </div>
         )
-    }
+    };
+
 
     state = {
-        formOpen: false,
-        text: ""
+        formOpen: false
     }
-
     openForm = () => {
         this.setState({
             formOpen: true
-        })
-    }
+        });
+    };
     closeForm = e => {
         this.setState({
             formOpen: false
         });
     }
-
     handleInputChange = e => {
         this.setState ({
             text: e.target.value
         })
     }
+    handleRemoveList = () => {
+        const { dispatch, listRemoveID } = this.props; 
+        
+        dispatch(removeList(listRemoveID))
 
-    // handleRemoveCard = () => {
-    //     const { dispatch, cardID } = this.props;
-    //     const { text } = this.state
-
-    //     dispatch(removeCard(cardID))
-
-    // }
-
-    handleAddList = () => {
-        const { dispatch } = this.props;
-        const { text } = this.state;
-
-        if(text) {
-            this.setState({
-                text: " "
-            })
-            dispatch(addList(text))
-
-        }
-        return;
-    };
-    
-    handleAddCard = () => {
-        const { dispatch, listID } = this.props;
-        const{ text } = this.state;
-
-        if(text){
-            this.setState({
-                text: " "
-            })
-            dispatch(addCard(listID, text))
-        }
     }
+
+
 
 
 
     renderForm = () => {
 
-        const { list } = this.props;
-        const placeholder = list ? "Enter list title" : "Enter card title";
-        const buttonTitle = list ? "Add list" : "Add card";
-        const buttonOut = "x";
+        const { list } = this.props; 
+        const placeholder = "Are you sure you want to remove this List?";
+        const buttonTitle = "Remove";
+        const buttonOut = "remove";
 
         return <div>
             <Card style = {{
@@ -119,13 +92,11 @@ class TrelloActionButton extends React.Component {
                     }}/>
                 
             </Card>
-
             <div style = {styles.formButtonGroup}>
-                <Button
-                 onMouseDown = { list ? this.handleAddList : this.handleAddCard} variant = "contained" style = {{color: "white", backgroundColor: "#5aac44"}}>
-                    {buttonTitle}{" "}
+               <Button
+                onMouseDown = {this.handleRemoveList} width = "50px"  style = {{color: "white", backgroundColor: "#5aac44"}}>
+                    {buttonOut}
                 </Button>
-
 
                 
                 
@@ -133,7 +104,7 @@ class TrelloActionButton extends React.Component {
         </div>
     }
 
-    render(){
+    render () {
         return this.state.formOpen ? this.renderForm() : this.renderAddButton();
     }
 }
@@ -144,8 +115,8 @@ const styles = {
         cursor: "pointer",
         borderRadius: 3,
         height: 36,
-        width: 272, 
-        paddingLeft: 10
+        width: 20, 
+        paddingLeft: 5
     },
     formButtonGroup:{
         marginTop: 8,
@@ -154,4 +125,4 @@ const styles = {
     }
 }
 
-export default connect() (TrelloActionButton);
+export default connect () (TrelloRemoveListButton);

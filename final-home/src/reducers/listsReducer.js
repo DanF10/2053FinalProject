@@ -1,4 +1,5 @@
 import { ListTwoTone } from "@material-ui/icons";
+import { startTransition } from "react";
 import { CONSTANTS } from "../actions";
 
 let listID = 2;
@@ -71,11 +72,10 @@ const listsReducer = (state =  initialState, action) => {
                     return list
                 }
             });
-
             return newState;
         }
 
-            case CONSTANTS.DRAG_HAPPENED:
+            case CONSTANTS.DRAG_HAPPENED:{
                 const {        
                     droppableIdStart,
                     droppableIdEnd,
@@ -109,6 +109,39 @@ const listsReducer = (state =  initialState, action) => {
 
 
                 return newState;
+            }
+            case CONSTANTS.REMOVE_CARD:{
+                const { cardId } = action.payload
+                
+                for (let i = 0; i < state.length; i++) {
+                    for (let j = 0; j < state[i].cards.length; j++) {
+                        if (state[i].cards[j].id === cardId) {
+                            state[i].cards.splice(j, 1);
+                            cardID = cardID - 1;
+                        }      
+                    }
+                }
+
+                let newState = [...state]
+                return newState;
+            }
+
+            case CONSTANTS.REMOVE_LIST:{
+                const {listId} = action.payload
+                console.log(state[0]);
+                console.log(listId);
+                for(let i = 0; i < state.length; i++){
+                    if(state[i].id === listId){
+                        state.splice(i,1)
+                        listID = listID -1;
+                    }
+                }
+            }
+
+            let newState = [...state]
+            console.log(newState)
+            return newState;
+                
 
         default:
             return state;

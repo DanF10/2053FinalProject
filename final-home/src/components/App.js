@@ -5,6 +5,8 @@ import TrelloActionButton from './TrelloActionButton';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import  sort  from "../actions/dropActions";
 import styled from 'styled-components';
+import TrelloRemoveButton from './TrelloRemoveButton';
+
 
 
 
@@ -55,6 +57,8 @@ class App extends Component {
       ))}
       {provided.placeholder}
       <TrelloActionButton list/>
+      
+      
       </ListContainer>
         )}
       </Droppable>
@@ -66,7 +70,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  lists: state.lists
+  lists: state.lists,
+  
 })
 
 const styles = {
