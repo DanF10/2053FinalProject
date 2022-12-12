@@ -4,12 +4,16 @@ import Textarea from 'react-textarea-autosize';
 import  Card  from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
+import  addList from "../actions/listsActions";
+import addCard from "../actions/cardsActions";
+import removeCard from "../actions/cardRemove";
+import removeList from "../actions/listRemove";
 import { FaTrash } from 'react-icons/fa';
-import { updateProject } from '../features/projects/projectSlice'
 
 class TrelloRemoveListButton extends React.Component {
 
     renderAddButton = () => {
+        const { list } = this.props;
 
         const buttonText = "Remove this list"
         const buttonTextOpacity =  1;
@@ -50,8 +54,9 @@ class TrelloRemoveListButton extends React.Component {
         })
     }
     handleRemoveList = () => {
-        const { dispatch, sectionRemoveID, projectId } = this.props; 
-        dispatch(updateProject({data : {removeSectionId: sectionRemoveID}, projectId:projectId}))
+        const { dispatch, listRemoveID } = this.props; 
+        
+        dispatch(removeList(listRemoveID))
 
     }
 
@@ -75,7 +80,6 @@ class TrelloRemoveListButton extends React.Component {
                 <Textarea 
                 placeholder = {placeholder}
                 autoFocus
-                readOnly="True"
                 onBlur = {this.closeForm}
                 value = {this.state.text}
                 onChange = {this.handleInputChange}
@@ -120,4 +124,5 @@ const styles = {
         alignItems: "center"
     }
 }
+
 export default connect () (TrelloRemoveListButton);
