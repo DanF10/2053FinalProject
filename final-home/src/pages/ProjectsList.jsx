@@ -48,12 +48,15 @@ const ProjectsList = () => {
         return <Spinner/>
       }
     return (
-        <div>         
+        <div className='project-wrap'>         
      <Menu width={200}>
         <a id="home" className="menu-item" href="/">Home</a>
         <a id="projects" className="menu-item" href="/projects">Projects</a>
         <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
       </Menu>
+      <div className='project-h1'>
+        <h1>Projects</h1>
+      </div>
       
           <section className='form'>
             <form onSubmit={onSubmit}>

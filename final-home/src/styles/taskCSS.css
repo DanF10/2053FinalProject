@@ -1,0 +1,91 @@
+html,
+body,
+body > div { /* the react root */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.task-h1 {
+  position:absolute;
+  margin: 0;
+  font-size: 30px;
+  justify-content: center;
+  top: 20px;
+  left: 45%;
+}
+
+ul {
+  min-height: 100%;
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+
+
+.demo-app-main-task {
+  flex-grow: 1;
+  padding-left: 3em;
+  padding-right: 3em;
+  width: 60%;
+  height: 80%;
+  float: left
+}
+
+.fc { /* the calendar root */
+  position: flex;
+  min-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  top: 25px;
+  justify-content: left;
+}
+
+.bm-burger-bars {
+  background: #373a47;
+}
+
+.bm-menu {
+  background: cadetblue;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+.bm-item {
+  display: inline-block;
+}
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: white;
+}
+
+.tasksViewList {
+  height: 100%;
+  float: left;
+  padding-left: 115px;
+}
+
+.list-view-li-elements {
+  height: 100%;
+  border: 1px solid black;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.list-title-element {
+  font-weight: bold;
+}
+

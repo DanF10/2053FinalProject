@@ -72,7 +72,7 @@ function Project() {
   }
 
   return (
-    <div>     
+    <div className='project-wrap'>     
     <Menu width={200}>
     <a id="home" className="menu-item" href="/">Home</a>
     <a id="projects" className="menu-item" href="/projects">Projects</a>

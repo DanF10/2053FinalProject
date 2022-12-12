@@ -7,6 +7,7 @@ import {slide as Menu} from 'react-burger-menu'
 import { useSelector, useDispatch } from 'react-redux'
 import { getProjects, reset } from '../features/projects/projectSlice'
 import { useNavigate } from 'react-router-dom'
+import '../styles/taskCSS.css'
 
 
 export default function Tasks() {
@@ -53,13 +54,16 @@ export default function Tasks() {
       });
     } 
     return (
-      <div className='demo-app'>
-        <div className='demo-app-main'>
+      <>
+        <div className='demo-app-main-task'>
           <Menu width={200}>
             <a id="home" className="menu-item" href="/">Home</a>
             <a id="projects" className="menu-item" href="/projects">Projects</a>
             <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
           </Menu>
+          <div className="task-h1">
+            <h1>Tasks</h1>
+          </div>
           {taskArray !== [] && <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
@@ -76,18 +80,19 @@ export default function Tasks() {
             weekends={weekendsVisible}
             events={taskArray}
           />}
-          <div className="tasksViewList">
-            <h2>Upcoming Tasks</h2>
-            <ul>
+          
+        </div>
+        <div className="tasksViewList">
+            <h2 className='upcoming-header'>Upcoming Tasks</h2>
+            <ul className='outside-list'>
               {taskArray !== [] && taskArray.map((task) => (
                 <div className="list-view-li-elements">
-                  <li key={task._id}>{task.title}</li>
+                  <li key={task._id} className="list-title-element">{task.title}</li>
                   {task.date !== "" ? <p> Due: {task.date}</p> : <p></p>}
                 </div>
               ))}
             </ul>
           </div>
-        </div>
-      </div>
+        </>
     )
 }

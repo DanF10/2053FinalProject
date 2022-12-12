@@ -1,7 +1,7 @@
 .project-container > h2 {
     align-items: center;
     justify-content: center;
-    margin-right: 100px;
+    display: flex;
 }
 div.overflow-button2 {
     display: inline-grid;
@@ -12,4 +12,19 @@ div.overflow-button2 {
 div.overflow-button {
     align-items:center;
     margin-left: 40px;
+}
+
+.project-wrap {
+    flex-grow: 1;
+  padding-left: 3em;
+  padding-right: 3em;
+}
+
+.project-h1 {
+    position:absolute;
+  margin: 0;
+  font-size: 30px;
+  justify-content: center;
+  top: 20px;
+  left: 45%;
 }

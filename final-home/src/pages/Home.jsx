@@ -45,14 +45,13 @@ export default function Home() {
     }
     console.log(taskArray);
     return (
-      <div className='demo-app'>
         <div className='demo-app-main'>
           <Menu width={200}>
             <a id="home" className="menu-item" href="/">Home</a>
             <a id="projects" className="menu-item" href="/projects">Projects</a>
             <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
           </Menu>
-          <div>
+          <div className='home-h1'>
             <h1>Home</h1>
           </div>
           {taskArray !== [] && <FullCalendar
@@ -72,7 +71,6 @@ export default function Home() {
             events={taskArray}
           />}
         </div>
-      </div>
     )
 }
 
