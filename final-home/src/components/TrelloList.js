@@ -4,6 +4,7 @@ import TrelloActionButton from './TrelloActionButton';
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import TrelloRemoveListButton from "./TrelloRemoveListButton";
 
 const ListContainer = styled.div `
 background-color: #dfe3e6;
@@ -15,7 +16,7 @@ margin-right: 8px;
 `
 
 
-const TrelloList = ({title, cards, listID, index}) =>{
+const TrelloList = ({title, cards, listID, index, projectId}) =>{
     return(
     <Draggable draggableId = {String(listID)} index = {index}>
         {provided => (
@@ -26,12 +27,14 @@ const TrelloList = ({title, cards, listID, index}) =>{
                     <h4>{title}</h4>
                     { cards.map((card,index) =>( 
                     <TrelloCard 
-                    key = {card.id} 
+                    key = {card._id} 
                     index = {index} 
                     text={card.text}
-                    id = {card.id}/>))}
+                    id = {card._id}
+                    projectId={projectId}/>))}
                     {provided.placeholder}
-                    <TrelloActionButton listID={listID}/>
+                    <TrelloActionButton projectId={projectId}listID={listID}/>
+                    <TrelloRemoveListButton sectionRemoveID = {listID} projectId={projectId}></TrelloRemoveListButton>
 
                     
                 </div>

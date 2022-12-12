@@ -1,3 +1,4 @@
+// import {store} from '../../store/index'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 
@@ -6,6 +7,7 @@ const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
   user: user ? user : null,
+  addedUsers: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -47,6 +49,20 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })
 
+export const getOneUser = createAsyncThunk('auth/getOne', async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await authService.getOneUser(data, token)
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -56,6 +72,7 @@ export const authSlice = createSlice({
       state.isSuccess = false
       state.isError = false
       state.message = ''
+      state.addedUsers = []
     },
   },
   extraReducers: (builder) => {
@@ -90,6 +107,22 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null
+      })
+      .addCase(getOneUser.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getOneUser.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        // const reduxStore = store.getState();
+        // console.log(reduxStore);
+        // state.projects[0].users.push(action.payload);
+        state.addedUsers.push(action.payload);
+      })
+      .addCase(getOneUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
       })
   },
 })

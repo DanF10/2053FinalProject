@@ -4,12 +4,12 @@ import Textarea from 'react-textarea-autosize';
 import  Card  from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import  addList from "../actions/listsActions";
-import addCard from "../actions/cardsActions";
+import { updateProject }from '../features/projects/projectSlice'
 
+let sectionCount = 0;
+let taskCount = 0;
 
 class TrelloActionButton extends React.Component {
-
     renderAddButton = () => {
         const { list } = this.props;
 
@@ -54,28 +54,27 @@ class TrelloActionButton extends React.Component {
     }
 
     handleAddList = () => {
-        const { dispatch } = this.props;
+        const { dispatch, projectId } = this.props;
         const { text } = this.state;
 
         if(text) {
             this.setState({
                 text: " "
             })
-            dispatch(addList(text))
-
+            dispatch(updateProject({data: {section: {text: text}}, projectId: projectId}))
         }
         return;
     };
     
     handleAddCard = () => {
-        const { dispatch, listID } = this.props;
+        const { dispatch, listID, projectId } = this.props;
         const{ text } = this.state;
 
         if(text){
             this.setState({
                 text: " "
             })
-            dispatch(addCard(listID, text))
+            dispatch(updateProject({data: {sectionID: listID, text: text}, projectId: projectId}))
         }
     }
 

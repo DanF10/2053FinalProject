@@ -1,9 +1,12 @@
 import { CONSTANTS } from "../actions";
 
-const addList = title => {
+const addList = (title, projectId) => {
     return {
         type: CONSTANTS.ADD_LIST,
-        payload: title
+        payload: {
+            text: title,
+            projectId: projectId
+        }
     };
 };
 export default addList;  

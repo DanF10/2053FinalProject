@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const Project = require('../models/projectModel')
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -67,11 +68,19 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc    Get user data
-// @route   GET /api/users/me
-// @access  Private 
-const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user)
+const getOneUser = asyncHandler(async (req, res) => {
+    const email = req.params.id;
+
+    //Check for user email
+    const user = await User.findOne({email: email});
+
+    if (user) {
+        res.status(200).json(user);
+        //maybe take out password
+    } else {
+        res.status(400);
+        throw new Error('User not found');
+    }
 })
 
 const generateToken = (id) => {
@@ -83,5 +92,5 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
-    getMe,
+    getOneUser,
 }
