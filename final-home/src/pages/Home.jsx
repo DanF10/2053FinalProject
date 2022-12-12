@@ -1,5 +1,6 @@
+
 import React, {useState, useEffect} from 'react'
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -7,7 +8,7 @@ import {slide as Menu} from 'react-burger-menu'
 import { useSelector, useDispatch } from 'react-redux'
 import { getProjects, reset } from '../features/projects/projectSlice'
 import { useNavigate } from 'react-router-dom'
-import '../styles/homeCSS.css'
+import "../styles/homeCSS.css"
 
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       if (!user) {
         navigate('/login')
       }
+      console.log(user);
   
       dispatch(getProjects())
       return () => {
@@ -41,16 +43,16 @@ export default function Home() {
           }
       }
     }
-
+    console.log(taskArray);
     return (
+      <div className='demo-app'>
         <div className='demo-app-main'>
           <Menu width={200}>
             <a id="home" className="menu-item" href="/">Home</a>
             <a id="projects" className="menu-item" href="/projects">Projects</a>
             <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
-            <a id="chat" className="menu-item" href="/chat">Chat</a>
           </Menu>
-          <div className="home-h1">
+          <div>
             <h1>Home</h1>
           </div>
           {taskArray !== [] && <FullCalendar
@@ -70,6 +72,7 @@ export default function Home() {
             events={taskArray}
           />}
         </div>
+      </div>
     )
 }
 

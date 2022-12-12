@@ -5,6 +5,15 @@ import { toast } from 'react-toastify';
 import { getProjects, createProject, reset } from '../features/projects/projectSlice';
 import Spinner from '../components/Spinner';
 import ProjectCard from '../components/ProjectCard'
+import styled from 'styled-components';
+import '../styles/projectsCSS.css';
+import {slide as Menu} from 'react-burger-menu'
+
+// const ProjButton = styled.div `
+// display: inline-grid;
+// grid-direction: row;
+// `
+
 
 const ProjectsList = () => {
     const dispatch = useDispatch();
@@ -39,7 +48,13 @@ const ProjectsList = () => {
         return <Spinner/>
       }
     return (
-        <div>
+        <div>         
+     <Menu width={200}>
+        <a id="home" className="menu-item" href="/">Home</a>
+        <a id="projects" className="menu-item" href="/projects">Projects</a>
+        <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
+      </Menu>
+      
           <section className='form'>
             <form onSubmit={onSubmit}>
               <div className='form-group'>
@@ -59,13 +74,19 @@ const ProjectsList = () => {
               </div>
             </form>
           </section>
+          <div className = 'overflow-button'>
+          {/* <ProjButton> */}
           {projects.map((project) => (
+            <div className = 'overflow-button2'>
               <ProjectCard
                   key={project._id}
                   id={project._id}
                   name={project.text}
               />
+              </div>
+              
           ))}
+          </div>
         </div>
     )
 }

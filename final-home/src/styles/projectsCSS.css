@@ -1,0 +1,15 @@
+.project-container > h2 {
+    align-items: center;
+    justify-content: center;
+    margin-right: 100px;
+}
+div.overflow-button2 {
+    display: inline-grid;
+    grid-template-rows: auto;
+    align-items: center;
+    
+}
+div.overflow-button {
+    align-items:center;
+    margin-left: 40px;
+}

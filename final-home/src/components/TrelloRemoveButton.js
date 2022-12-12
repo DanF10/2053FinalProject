@@ -12,7 +12,7 @@ class TrelloRemoveButton extends React.Component {
     renderAddButton = () => {
         const buttonTextOpacity =  0.5;
         const buttonTextColor =  "inherit";
-        const buttonTextBackground =  "inherit";
+      //  const buttonTextBackground =  "inherit";
 
 
         return (
@@ -21,7 +21,7 @@ class TrelloRemoveButton extends React.Component {
                 ...styles.openForButtonGroup,
                 opacty: buttonTextOpacity,
                 color: buttonTextColor,
-                backgroundColor: buttonTextBackground,
+             //   backgroundColor: buttonTextBackground,
             }}>
                 <p> <FaTrash></FaTrash></p>
                 

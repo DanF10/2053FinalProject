@@ -4,6 +4,7 @@ import  Card  from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { updateProject }from '../features/projects/projectSlice'
+import { FaPlus } from "react-icons/fa";
 
 class TrelloActionButton extends React.Component {
     renderAddButton = () => {
@@ -21,8 +22,8 @@ class TrelloActionButton extends React.Component {
              opacity: buttonTextOpacity, 
              color: buttonTextColor, 
              backgroundColor: buttonTextBackground}}>
-                <Icon>+</Icon>
-                <p> { buttonText } </p>
+                
+                <p> <FaPlus></FaPlus> { buttonText } </p>
             </div>
         )
     }

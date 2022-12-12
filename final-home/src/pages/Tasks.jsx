@@ -59,7 +59,6 @@ export default function Tasks() {
             <a id="home" className="menu-item" href="/">Home</a>
             <a id="projects" className="menu-item" href="/projects">Projects</a>
             <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
-            <a id="chat" className="menu-item" href="/chat">Chat</a>
           </Menu>
           {taskArray !== [] && <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

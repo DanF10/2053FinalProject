@@ -9,6 +9,8 @@ import styled from 'styled-components';
 import { getOneProject, updateProject, reset } from '../features/projects/projectSlice';
 import Spinner from './Spinner';
 import AddUsersButton from './addUsersButton';
+import '../styles/projectsCSS.css';
+import {slide as Menu} from 'react-burger-menu'
 
 
 
@@ -24,6 +26,7 @@ function Project() {
   const navigate = useNavigate();
   let { id } = useParams();
   const { user } = useSelector((state) => state.auth)
+  console.log(user);
   const {projects, isLoading, isError, message} = useSelector((state) => state.projects);
   const onDragEnd = (result) => {
     //dragableId = object being dragged, destination.index = new array index, droppableId = listId,
@@ -69,10 +72,16 @@ function Project() {
   }
 
   return (
+    <div>     
+    <Menu width={200}>
+    <a id="home" className="menu-item" href="/">Home</a>
+    <a id="projects" className="menu-item" href="/projects">Projects</a>
+    <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
+  </Menu>
     <DragDropContext onDragEnd={ onDragEnd }>
-    <div className="App">
+    <div className="project-container">
       <AddUsersButton/> 
-      <h2>Your projects</h2>
+      <h2>Your project</h2>
       <Droppable droppableId = "all-lists" direction = "horizontal" type = "list">
         {provided => (
       <ListContainer {...provided.droppableProps} ref = {provided.innerRef}>
@@ -92,6 +101,7 @@ function Project() {
 
     </div>
     </DragDropContext>
+    </div>
   );
 }
 

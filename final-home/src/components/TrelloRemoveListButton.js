@@ -10,8 +10,8 @@ class TrelloRemoveListButton extends React.Component {
 
     renderAddButton = () => {
         const buttonTextOpacity =  1;
-        const buttonTextColor =  "white";
-        const buttonTextBackground =  "rgba(0,0,0,.15)";
+        const buttonTextColor =  "gray";
+    //    const buttonTextBackground =  "rgba(0,0,0,.15)";
 
 
         return (
@@ -20,7 +20,7 @@ class TrelloRemoveListButton extends React.Component {
                 ...styles.openForButtonGroup,
                 opacty: buttonTextOpacity,
                 color: buttonTextColor,
-                backgroundColor: buttonTextBackground
+      //          backgroundColor: buttonTextBackground
             }}>
                 <p> <FaTrash></FaTrash></p>
             </div>
