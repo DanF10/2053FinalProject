@@ -1,33 +1,59 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
 import {slide as Menu} from 'react-burger-menu'
+import { useSelector, useDispatch } from 'react-redux'
+import { getProjects, reset } from '../features/projects/projectSlice'
+import { useNavigate } from 'react-router-dom'
 
 
-export default class Home extends React.Component {
+export default function Home() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  state = {
-    weekendsVisible: true,
-    currentEvents: []
-  }
+    const [weekendsVisible, setWeekendsVisible] = useState(true);
 
-  render() {
+    const {user} = useSelector((state) => state.auth);
+    const {projects} = useSelector((state) => state.projects)
+    
+    useEffect(() => {
+      if (!user) {
+        navigate('/login')
+      }
+  
+      dispatch(getProjects())
+      return () => {
+        dispatch(reset());
+      }
+    }, [])
+    const taskArray = [];
+    for (let i = 0; i < projects.length; i++) {
+      for (let j = 0; j < projects[i].sections.length; j++) {
+        for (let k = 0; k < projects[i].sections[j].tasks.length; k++) {
+          const task = projects[i].sections[j].tasks[k]
+          if (task.endDate)
+            taskArray.push({id: task._id, title: task.text, date: task.endDate.substring(0,task.endDate.indexOf("T"))})
+          else
+          taskArray.push({id: task._id, title: task.text, date: ""})
+          }
+      }
+    }
+    console.log(taskArray);
     return (
       <div className='demo-app'>
         <div className='demo-app-main'>
           <Menu width={200}>
             <a id="home" className="menu-item" href="/">Home</a>
-            <a id="about" className="menu-item" href="/projects">Projects</a>
-            <a id="contact" className="menu-item" href="/tasks">Tasks</a>
-            <a onClick={ this.showSettings } className="menu-item" href="/chat">Chat</a>
+            <a id="projects" className="menu-item" href="/projects">Projects</a>
+            <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
+            <a id="chat" className="menu-item" href="/chat">Chat</a>
           </Menu>
           <div>
             <h1>Home</h1>
           </div>
-          <FullCalendar
+          {taskArray !== [] && <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
               left: 'prev,next today',
@@ -36,66 +62,15 @@ export default class Home extends React.Component {
             }}
             initialView='dayGridMonth'
             height={700}
-            editable={true}
-            selectable={true}
+            editable={false}
+            selectable={false}
             selectMirror={true}
             dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-          />
+            weekends={weekendsVisible}
+            events={taskArray}
+          />}
         </div>
       </div>
     )
-  }
-
-
-
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  }
-
-  handleEventClick = (clickInfo) => {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
-    }
-  }
-
-  handleEvents = (events) => {
-    this.setState({
-      currentEvents: events
-    })
-  }
-
 }
 
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
-}

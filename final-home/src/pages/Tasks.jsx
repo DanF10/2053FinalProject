@@ -1,33 +1,68 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
 import {slide as Menu} from 'react-burger-menu'
+import { useSelector, useDispatch } from 'react-redux'
+import { getProjects, reset } from '../features/projects/projectSlice'
+import { useNavigate } from 'react-router-dom'
+import '../styles/taskCSS.css';
 
 
-export default class Tasks extends React.Component {
+export default function Tasks() {
 
-  state = {
-    weekendsVisible: true,
-    currentEvents: []
-  }
+  const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  render() {
+    const [weekendsVisible, setWeekendsVisible] = useState(true);
+
+    const {user} = useSelector((state) => state.auth);
+    const {projects} = useSelector((state) => state.projects)
+    
+    useEffect(() => {
+      if (!user) {
+        navigate('/login')
+      }
+  
+      dispatch(getProjects())
+      return () => {
+        dispatch(reset());
+      }
+    }, [])
+    let taskArray = [];
+    for (let i = 0; i < projects.length; i++) {
+      for (let j = 0; j < projects[i].sections.length; j++) {
+        for (let k = 0; k < projects[i].sections[j].tasks.length; k++) {
+          const task = projects[i].sections[j].tasks[k]
+          if (task.endDate)
+            taskArray.push({id: task._id, title: task.text, date: task.endDate.substring(0,task.endDate.indexOf("T"))})
+          else
+          taskArray.push({id: task._id, title: task.text, date: ""})
+          }
+      }
+    }
+    if (taskArray !== []) {
+      taskArray.sort(function (a, b) {
+        var dateA = new Date(a.date),
+          dateB = new Date(b.date);
+        if (dateB < dateA) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    } 
     return (
       <div className='demo-app'>
         <div className='demo-app-main'>
           <Menu width={200}>
             <a id="home" className="menu-item" href="/">Home</a>
-            <a id="about" className="menu-item" href="/projects">Projects</a>
-            <a id="contact" className="menu-item" href="/tasks">Tasks</a>
-            <a onClick={ this.showSettings } className="menu-item" href="/chat">Chat</a>
+            <a id="projects" className="menu-item" href="/projects">Projects</a>
+            <a id="tasks" className="menu-item" href="/tasks">Tasks</a>
+            <a id="chat" className="menu-item" href="/chat">Chat</a>
           </Menu>
-          <div>
-            <h1>Tasks</h1>
-          </div>
-          <FullCalendar
+          {taskArray !== [] && <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
               left: 'prev,next today',
@@ -36,74 +71,25 @@ export default class Tasks extends React.Component {
             }}
             initialView='dayGridMonth'
             height={700}
-            editable={true}
-            selectable={true}
+            editable={false}
+            selectable={false}
             selectMirror={true}
             dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-          />
-          <div>
+            weekends={weekendsVisible}
+            events={taskArray}
+          />}
+          <div className="tasksViewList">
             <h2>Upcoming Tasks</h2>
             <ul>
-              <li>Task 1</li>
-              <li>Task 2</li>
-              <li>Save me it is literally 5 am</li>
-              <li>Task 4</li>
+              {taskArray !== [] && taskArray.map((task) => (
+                <div className="list-view-li-elements">
+                  <li key={task._id}>{task.title}</li>
+                  {task.date !== "" ? <p> Due: {task.date}</p> : <p></p>}
+                </div>
+              ))}
             </ul>
           </div>
         </div>
       </div>
     )
-  }
-
-
-
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  }
-
-  handleEventClick = (clickInfo) => {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
-    }
-  }
-
-  handleEvents = (events) => {
-    this.setState({
-      currentEvents: events
-    })
-  }
-
-}
-
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
 }

@@ -18,18 +18,16 @@ h2 {
 }
 
 ul {
+  min-height: 100%;
   margin: 0;
   padding: 0 0 0 1.5em;
 }
 
-li {
+.tasksListView {
   margin-left: 100px;
   padding: 10px;
   font-size: 20px;
-}
-
-b { /* used for event dates/times */
-  margin-right: 3px;
+  background: green;
 }
 
 .demo-app {
@@ -37,6 +35,7 @@ b { /* used for event dates/times */
   min-height: 100%;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
+  max-width: 50%;
 }
 
 .demo-app-sidebar {
@@ -60,6 +59,7 @@ b { /* used for event dates/times */
   right: 20px;
   padding: 10px;
   max-width: 800px;
+  max-height: 500px;
   margin: 0 auto;
 }
 
@@ -96,4 +96,8 @@ b { /* used for event dates/times */
 
 .bm-cross {
   background: white;
+}
+
+.tasksViewList {
+  height: 100%
 }

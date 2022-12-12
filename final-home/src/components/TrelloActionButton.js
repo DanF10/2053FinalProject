@@ -1,13 +1,9 @@
 import React from "react";
 import Icon from "@material-ui/core/Icon";
-import Textarea from 'react-textarea-autosize';
 import  Card  from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { updateProject }from '../features/projects/projectSlice'
-
-let sectionCount = 0;
-let taskCount = 0;
 
 class TrelloActionButton extends React.Component {
     renderAddButton = () => {
@@ -33,7 +29,8 @@ class TrelloActionButton extends React.Component {
 
     state = {
         formOpen: false,
-        text: ""
+        text: "",
+        date: new Date()
     }
 
     openForm = () => {
@@ -53,6 +50,12 @@ class TrelloActionButton extends React.Component {
         })
     }
 
+    handleDateChange = e => {
+        this.setState({
+            date: e.target.value
+        })
+    }
+
     handleAddList = () => {
         const { dispatch, projectId } = this.props;
         const { text } = this.state;
@@ -68,13 +71,13 @@ class TrelloActionButton extends React.Component {
     
     handleAddCard = () => {
         const { dispatch, listID, projectId } = this.props;
-        const{ text } = this.state;
+        const{ text, date } = this.state;
 
         if(text){
             this.setState({
                 text: " "
             })
-            dispatch(updateProject({data: {sectionID: listID, text: text}, projectId: projectId}))
+            dispatch(updateProject({data: {sectionID: listID, text: text, endDate: date}, projectId: projectId}))
         }
     }
 
@@ -92,19 +95,10 @@ class TrelloActionButton extends React.Component {
                 minWidth: 272,
                 padding: "6px 8px 2px"
             }}>
-                <Textarea 
-                placeholder = {placeholder}
-                autoFocus
-                onBlur = {this.closeForm}
-                value = {this.state.text}
-                onChange = {this.handleInputChange}
-                style = {{
-                    resize: "none",
-                    width: "100%",
-                    overflow: "hidden",
-                    outline: "none",
-                    border: "none"
-                    }}/>
+                <form>
+                    <input type="text" autoFocus placeholder={placeholder} value={this.state.text} onChange={this.handleInputChange} style={{resize: "none",width: "100%",overflow: "hidden",outline: "none",border: "none"}}></input>
+                    {!list && <input type="date" onChange={this.handleDateChange} value={this.state.date} style={{resize: "none",overflow: "hidden"}}></input>}
+                </form>
                 
             </Card>
             <div style = {styles.formButtonGroup}>
@@ -113,7 +107,7 @@ class TrelloActionButton extends React.Component {
                     {buttonTitle}{" "}
                 </Button>
 
-                <Icon style = {{marginLeft: 8, curose: "pointer" }}>x</Icon>
+                <Button onClick={this.closeForm} style = {{marginLeft: 117, curose: "pointer" }}>x</Button>
                 
             </div>
         </div>

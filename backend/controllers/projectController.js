@@ -7,11 +7,17 @@ const User = require('../models/userModel');
 // @route    GET /api/projects
 // @access   Private
 const getProjects = asyncHandler(async (req, res) => {
-    const projects = await Project.find({ users: { $in : [req.user.id]}});
-    //const projects = await Project.find().populate({ path: 'users', match: { _id: { $gte: [req.user.id]}}}).exec();
-
+    const projects = await Project.find({})
+    const returnArr = []
+    for (let i = 0; i < projects.length; i++) {
+        for (let j = 0; j < projects[i].users.length; j++) {
+            if (projects[i].users[j] === req.user.id || (projects[i].users[j]._id && projects[i].users[j]._id.toString() === req.user.id)) {
+                returnArr.push(projects[i])
+            }
+        }
+    }
     
-    res.status(200).json(projects);
+    res.status(200).json(returnArr);
 })
 
 // @desc     Get one project by id
@@ -117,7 +123,7 @@ const updateProject = asyncHandler(async (req, res) => {
         for (let i = 0; i < project.toObject().sections.length; i++) {
             if (project.toObject().sections[i]._id.toString() === req.body.sectionID) {
                 const updatedArr = project.toObject().sections;
-                updatedArr[i].tasks.push({text: req.body.text, users: [req.user.id]})
+                updatedArr[i].tasks.push({text: req.body.text, users: [req.user.id], endDate: req.body.endDate})
                 updatedProject = await Project.findByIdAndUpdate(req.params.id, {sections: updatedArr}, {new: true,});
             }
         }

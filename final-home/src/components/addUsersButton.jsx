@@ -11,6 +11,7 @@ import Spinner from './Spinner';
 function VerticallyCenteredModal(props) {
   let { id } = useParams();
   const dispatch = useDispatch()
+  
   const [text, setText] = useState('')
 
   const {projects, isLoading} = useSelector((state) => state.projects);
@@ -22,11 +23,10 @@ function VerticallyCenteredModal(props) {
 
   const onSubmit = (e) => {
     e.preventDefault()
+    props.onHide();
     dispatch(getOneUser({email: text, projectId: id}));
     if (addedUsers.length !== 0) {
-      let a = updateProject({data:{user: addedUsers[0]}, projectId: id})
-      console.log(a);
-      dispatch(a)
+      dispatch(updateProject({data:{user: addedUsers[0]}, projectId: id}))
       dispatch(reset());
     }
   } 
@@ -56,7 +56,7 @@ function VerticallyCenteredModal(props) {
               id='email'
               name='email'
               value={text}
-              placeholder='Enter your email'
+              placeholder='Enter the user email'
               onChange={onChange}
             />
           </div>
@@ -67,7 +67,7 @@ function VerticallyCenteredModal(props) {
           </div>
         </form>
         <div className='users-list'>
-          <h1>Other Members in Project</h1>
+          <h1>Users already invited to Project</h1>
           <ul>
           {projects[0] ? projects[0].users.map((user) => {
             return(<li>{user.name}</li>)

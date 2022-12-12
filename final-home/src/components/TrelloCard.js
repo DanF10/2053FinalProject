@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import { CardContent } from "@material-ui/core";
@@ -10,7 +10,24 @@ const CardContainer = styled.div `
 margin-bottom: 8px;
 `
 
-const TrelloCard = ({text, id, index, projectId}) =>{
+const TrelloCard = ({text, id, index, projectId, endDate}) =>{
+    const formatDate = () => {
+        if (endDate.includes("T")) {
+            endDate = endDate.substring(0,endDate.indexOf("T"));
+            const parts = endDate.split('-');
+            endDate = parts[1] + "/" + parts[2] + "/" + parts[0];
+        }
+    }
+
+    useEffect(() => {
+        if (endDate && endDate.includes("T")) {
+            endDate = endDate.substring(0,endDate.indexOf("T"));
+            const parts = endDate.split('-');
+            endDate = parts[1] + "/" + parts[2] + "/" + parts[0];
+            console.log(endDate);
+        }
+    }, [])
+
     return(
         <Draggable draggableId = {String(id)} index = {index}>
         {provided => (
@@ -22,6 +39,7 @@ const TrelloCard = ({text, id, index, projectId}) =>{
                 <Card>
                     <CardContent>
                         <Typography gutterBottom>{text}</Typography>
+                        {endDate ? <p>Due: {endDate.substring(0,endDate.indexOf("T")).replaceAll('-', '/')}</p> : <p></p>}
                         <TrelloRemoveButton id={id} projectId={projectId}></TrelloRemoveButton>
                     </CardContent>
                 </Card>

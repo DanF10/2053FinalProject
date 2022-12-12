@@ -3,6 +3,7 @@ import Textarea from 'react-textarea-autosize';
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { FaTrash } from 'react-icons/fa';
+import {updateProject} from '../features/projects/projectSlice'
 
 
 

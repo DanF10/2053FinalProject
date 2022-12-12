@@ -38,9 +38,10 @@ function Project() {
 
   useEffect(() => {
     if (isError) {
+      console.log(message);
       toast.error(message)
       if (message === 'User not authorized') {
-        navigate('/');
+        navigate('/login');
       }
     }
 
@@ -52,7 +53,7 @@ function Project() {
     return () => {
       dispatch(reset());
     }
-  }, [])
+  }, [isError, message])
   //[user, navigate, isError, message, dispatch]
 
   var sections;

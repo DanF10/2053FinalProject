@@ -31,7 +31,8 @@ const TrelloList = ({title, cards, listID, index, projectId}) =>{
                     index = {index} 
                     text={card.text}
                     id = {card._id}
-                    projectId={projectId}/>))}
+                    projectId={projectId}
+                    endDate={card.endDate}/>))}
                     {provided.placeholder}
                     <TrelloActionButton projectId={projectId}listID={listID}/>
                     <TrelloRemoveListButton sectionRemoveID = {listID} projectId={projectId}></TrelloRemoveListButton>
