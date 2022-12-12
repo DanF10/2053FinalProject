@@ -15,7 +15,6 @@ function App() {
   return (
     <>
       <Router>
-        <div className='container'>
           <Header />
           <Routes>
             <Route path='/:id' element={<Project/>} />
@@ -25,7 +24,6 @@ function App() {
             <Route path='/projects' element={<ProjectsList projects={projects}/>} />
             <Route path='/tasks' element={<Tasks />} />
           </Routes>
-        </div>
       </Router>
       <ToastContainer />
     </>

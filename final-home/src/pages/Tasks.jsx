@@ -7,7 +7,6 @@ import {slide as Menu} from 'react-burger-menu'
 import { useSelector, useDispatch } from 'react-redux'
 import { getProjects, reset } from '../features/projects/projectSlice'
 import { useNavigate } from 'react-router-dom'
-import '../styles/taskCSS.css';
 
 
 export default function Tasks() {
