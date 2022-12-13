@@ -24,7 +24,6 @@ export default function Home() {
       if (!user) {
         navigate('/login')
       }
-      console.log(user);
   
       dispatch(getProjects())
       return () => {
@@ -43,7 +42,6 @@ export default function Home() {
           }
       }
     }
-    console.log(taskArray);
     return (
         <div className='demo-app-main'>
           <Menu width={200}>

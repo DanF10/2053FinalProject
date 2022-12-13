@@ -66,7 +66,7 @@ function VerticallyCenteredModal(props) {
             </button>
           </div>
         </form>
-        <div className='users-list' >
+        <div className='users-list'>
           <h1>Users already invited to Project</h1>
           <ul>
           {projects[0] ? projects[0].users.map((user) => {

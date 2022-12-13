@@ -75,7 +75,7 @@ ul {
 .tasksViewList {
   height: 100%;
   float: left;
-  padding-left: 115px;
+  padding-left: 85px;
 }
 
 .list-view-li-elements {
@@ -89,3 +89,7 @@ ul {
   font-weight: bold;
 }
 
+.upcoming-header {
+  padding-left: 22px;
+  justify-content: center;
+}

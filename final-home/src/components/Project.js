@@ -26,7 +26,6 @@ function Project() {
   const navigate = useNavigate();
   let { id } = useParams();
   const { user } = useSelector((state) => state.auth)
-  console.log(user);
   const {projects, isLoading, isError, message} = useSelector((state) => state.projects);
   const onDragEnd = (result) => {
     //dragableId = object being dragged, destination.index = new array index, droppableId = listId,
@@ -41,7 +40,6 @@ function Project() {
 
   useEffect(() => {
     if (isError) {
-      console.log(message);
       toast.error(message)
       if (message === 'User not authorized') {
         navigate('/login');

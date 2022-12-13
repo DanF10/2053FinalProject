@@ -1,7 +1,7 @@
 {
   "name": "authentication-project",
   "version": "1.0.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "https://peaceful-salamander-28a391.netlify.app/",
   "description": "Authentication integration",
   "main": "server.js",
   "scripts": {

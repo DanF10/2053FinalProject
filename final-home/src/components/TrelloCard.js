@@ -24,7 +24,6 @@ const TrelloCard = ({text, id, index, projectId, endDate}) =>{
             endDate = endDate.substring(0,endDate.indexOf("T"));
             const parts = endDate.split('-');
             endDate = parts[1] + "/" + parts[2] + "/" + parts[0];
-            console.log(endDate);
         }
     }, [])
 

@@ -47,6 +47,7 @@ export const getProjects = createAsyncThunk(
   }
 )
 
+//Get one project 
 export const getOneProject = createAsyncThunk(
   'projects/getOne',
   async (id, thunkAPI) => {
