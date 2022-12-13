@@ -1,7 +1,7 @@
 {
   "name": "final-home",
   "version": "0.1.0",
-  "proxy": "https://peaceful-salamander-28a391.netlify.app/",
+  "proxy": "http:localhost:5000/",
   "private": true,
   "dependencies": {
     "@fullcalendar/daygrid": "^5.11.3",
